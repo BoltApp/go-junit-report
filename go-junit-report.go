@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"./parser"
+	"github.com/aerickson/go-junit-report/parser"
+	// "./parser"
 )
 
 var (
