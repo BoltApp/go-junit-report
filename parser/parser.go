@@ -78,10 +78,10 @@ func Parse(r io.Reader, pkgName string) (*Report, error) {
 
 		line := string(l)
 
-		fmt.Println("before: %s", line)
+		fmt.Println("before: ", line)
 		// AJE : DO SOMETHING HERE
-		line = regexStripProgress.ReplaceAllString(line, "${1}")
-		fmt.Println("after: %s", line)
+		line = regexStripProgress.ReplaceAllString(line, "--- ${1}")
+		fmt.Println("after: ", line)
 
 		if strings.HasPrefix(line, "=== RUN ") {
 			// new test
