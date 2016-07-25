@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/aerickson/go-junit-report/parser"
+	"github.com/BoltApp/go-junit-report/parser"
 	// "./parser"
 )
 
