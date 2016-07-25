@@ -43,6 +43,7 @@ var (
 	regexStatus   = regexp.MustCompile(`^--- (PASS|FAIL|SKIP): (.+) \((\d+\.\d+)(?: seconds|s)\)$`)
 	regexCoverage = regexp.MustCompile(`^coverage:\s+(\d+\.\d+)%\s+of\s+statements$`)
 	regexResult   = regexp.MustCompile(`^(ok|FAIL)\s+(.+)\s(\d+\.\d+)s(?:\s+coverage:\s+(\d+\.\d+)%\s+of\s+statements)?$`)
+	regexStripProgress = regexp.MustCompile(`^.* --- (.*)`)
 )
 
 // Parse parses go test output from reader r and returns a report with the
@@ -75,6 +76,10 @@ func Parse(r io.Reader, pkgName string) (*Report, error) {
 		}
 
 		line := string(l)
+
+		// delete progress bar messages
+		// TODO: don't do this on every line, just when needed
+		line = regexStripProgress.ReplaceAllString(line, "--- ${1}")
 
 		if strings.HasPrefix(line, "=== RUN ") {
 			// new test
