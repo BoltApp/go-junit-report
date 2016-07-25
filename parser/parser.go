@@ -1,6 +1,7 @@
 package parser
 
 import (
+    "fmt"
 	"bufio"
 	"io"
 	"regexp"
@@ -43,6 +44,7 @@ var (
 	regexStatus   = regexp.MustCompile(`^--- (PASS|FAIL|SKIP): (.+) \((\d+\.\d+)(?: seconds|s)\)$`)
 	regexCoverage = regexp.MustCompile(`^coverage:\s+(\d+\.\d+)%\s+of\s+statements$`)
 	regexResult   = regexp.MustCompile(`^(ok|FAIL)\s+(.+)\s(\d+\.\d+)s(?:\s+coverage:\s+(\d+\.\d+)%\s+of\s+statements)?$`)
+	regexStripProgress = regexp.MustCompile(`^.* --- (.*)`)
 )
 
 // Parse parses go test output from reader r and returns a report with the
@@ -75,6 +77,11 @@ func Parse(r io.Reader, pkgName string) (*Report, error) {
 		}
 
 		line := string(l)
+
+		fmt.Println("before: %s", line)
+		// AJE : DO SOMETHING HERE
+		line = regexStripProgress.ReplaceAllString(line, "${1}")
+		fmt.Println("after: %s", line)
 
 		if strings.HasPrefix(line, "=== RUN ") {
 			// new test
