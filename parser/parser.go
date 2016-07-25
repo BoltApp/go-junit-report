@@ -78,10 +78,9 @@ func Parse(r io.Reader, pkgName string) (*Report, error) {
 
 		line := string(l)
 
-		fmt.Println("before: ", line)
-		// AJE : DO SOMETHING HERE
+		// delete progress bar messages
+		// TODO: don't do this on every line, just when needed
 		line = regexStripProgress.ReplaceAllString(line, "--- ${1}")
-		fmt.Println("after: ", line)
 
 		if strings.HasPrefix(line, "=== RUN ") {
 			// new test
